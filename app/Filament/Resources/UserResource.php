@@ -12,6 +12,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -22,6 +23,8 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'User Management';
 
+
+    protected static ?string $recordTitleAttribute = 'email';
     protected static function getNavigationBadge(): ?string
 {
     return static::getModel()::count();
@@ -43,11 +46,20 @@ class UserResource extends Resource
     {
         return $table
         ->columns([
+            
             Tables\Columns\TextColumn::make(name: 'id')->sortable(),
             Tables\Columns\TextColumn::make(name: 'name')->searchable(),
             Tables\Columns\TextColumn::make(name: 'email')->searchable(),
             Tables\Columns\TextColumn::make('created_at')->sortable(),
+
+            IconColumn::make('is_admin')
+    ->options([
+        'heroicon-o-pencil' => 1,
+        'heroicon-o-clock' => 0,
+    ])
         ])->defaultSort(column: 'id', direction: 'asc')
+
+        
 
             ->filters([
                 //

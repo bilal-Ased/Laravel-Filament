@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TicketStatuses extends Model
+class IssueSources extends Model
 {
     use HasFactory;
     protected $fillable =['name','status'];

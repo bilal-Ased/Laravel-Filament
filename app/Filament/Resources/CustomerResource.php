@@ -14,12 +14,17 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationGroup = 'Customer Management';
@@ -28,6 +33,8 @@ class CustomerResource extends Resource
     {
         return static::getModel()::count();
     }
+
+
 
 
     public static function form(Form $form): Form
@@ -48,6 +55,7 @@ class CustomerResource extends Resource
     {
         return $table
         ->columns([
+
             Tables\Columns\TextColumn::make(name: 'id')->sortable(),
             Tables\Columns\TextColumn::make(name: 'name')->searchable(),
             Tables\Columns\TextColumn::make(name: 'email')->searchable(),
@@ -56,16 +64,24 @@ class CustomerResource extends Resource
             ImageColumn::make('path')
         ])->defaultSort(column: 'id', direction: 'asc')
 
+
+
             ->filters([
-                //
+                Filter::make('is_featured')->toggle(),
+
+                Tables\Filters\Filter::make(name:'start')->query(fn (Builder $query): Builder => $query->where(column:'id',operator:1))
+                
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
 
             ]);
+
+            
     }
     
     public static function getRelations(): array
