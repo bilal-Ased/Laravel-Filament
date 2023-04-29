@@ -24,13 +24,10 @@ class Ticket extends Model
         return $this->belongsTo(related:IssueSources::class);
     }
    
-
     public function issueCategory ()
     {
         return $this->belongsTo(related:IssueCategory::class);
     }
-   
-
 
     public function ticketStatus ()
     {
