@@ -62,7 +62,7 @@ class TicketResource extends Resource
     }
 
     public static function table(Table $table): Table
-    { 
+    {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make(name: 'id')->sortable(),
@@ -73,7 +73,7 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make(name: 'department')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->sortable(),
 
-                
+
             ])->defaultSort(column: 'id', direction: 'asc')
             ->filters([
                 Filter::make('created_at')
@@ -91,7 +91,13 @@ class TicketResource extends Resource
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })
+                    }),
+
+                    Filter::make('Open Tickets')
+                    ->query(fn (Builder $query): Builder => $query->where('ticket_status_id', 1)),
+
+                    Filter::make('Closed Tickets')
+                    ->query(fn (Builder $query): Builder => $query->where('ticket_status_id', 2)),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
