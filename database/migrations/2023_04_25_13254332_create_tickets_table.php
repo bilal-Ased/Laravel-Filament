@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('issue_source')->nullable();
+            $table->foreignId('issue_source_id')->nullable();
             $table->string('department');
-            $table->bigInteger('issue_category')->nullable();
+            $table->foreignId('issue_category_id')->nullable();
             $table->text('comment');
             $table->foreignId('customer_id')->nullable();
-            $table->bigInteger('ticket_status');
+            $table->foreignId('ticket_status_id')->nullable();
             $table->timestamps();
         });
     }

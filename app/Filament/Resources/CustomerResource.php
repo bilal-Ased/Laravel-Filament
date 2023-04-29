@@ -27,7 +27,7 @@ class CustomerResource extends Resource
 
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static ?string $navigationGroup = 'Customer Management';
+    protected static ?string $navigationGroup = 'Customers';
 
     protected static function getNavigationBadge(): ?string
     {

@@ -9,19 +9,32 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','issue_source','department','issue_category','comment','customer_id','ticket_status'];
+    protected $fillable = ['name','issue_source_id','department','issue_category_id','comment','customer_id','ticket_status_id'];
 
 
 
-    public function Customer ()
+    public function customer ()
     {
         return $this->belongsTo(related:Customer::class);
     }
 
 
-    public function IssueSources ()
+    public function issueSource ()
     {
         return $this->belongsTo(related:IssueSources::class);
+    }
+   
+
+    public function issueCategory ()
+    {
+        return $this->belongsTo(related:IssueCategory::class);
+    }
+   
+
+
+    public function ticketStatus ()
+    {
+        return $this->belongsTo(related:TicketStatuses::class);
     }
    
 

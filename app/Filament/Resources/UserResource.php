@@ -21,7 +21,7 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'User Management';
+    protected static ?string $navigationGroup = 'Users';
 
 
     protected static ?string $recordTitleAttribute = 'email';
@@ -51,7 +51,6 @@ class UserResource extends Resource
             Tables\Columns\TextColumn::make(name: 'name')->searchable(),
             Tables\Columns\TextColumn::make(name: 'email')->searchable(),
             Tables\Columns\TextColumn::make('created_at')->sortable(),
-
             IconColumn::make('is_admin')
     ->options([
         'heroicon-o-pencil' => 1,

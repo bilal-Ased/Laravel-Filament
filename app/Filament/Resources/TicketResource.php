@@ -25,7 +25,13 @@ class TicketResource extends Resource
     protected static ?string $model = Ticket::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationGroup = 'Ticket Management';
+    protected static ?string $navigationGroup = 'Help Desk';
+
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
 
     public static function form(Form $form): Form
@@ -36,15 +42,15 @@ class TicketResource extends Resource
                     ->label('select customer')
                     ->options(Customer::all()->pluck('name', 'id'))
                     ->searchable(),
-                Select::make('issue_source')
+                Select::make('issue_source_id')
                     ->label('Issue Source')
                     ->options(IssueSources::all()->pluck('name', 'id'))
                     ->searchable(),
-                Select::make('issue_category')
+                Select::make('issue_category_id')
                     ->label('Issue Category')
                     ->options(IssueCategory::all()->pluck('name', 'id'))
                     ->searchable(),
-                Select::make('ticket_status')
+                Select::make('ticket_status_id')
                     ->label('Ticket Status')
                     ->options(TicketStatuses::all()->pluck('name', 'id'))
                     ->searchable(),
@@ -56,16 +62,18 @@ class TicketResource extends Resource
     }
 
     public static function table(Table $table): Table
-    {
+    { 
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make(name: 'id')->sortable(),
-                Tables\Columns\TextColumn::make(name: 'customer.name')->searchable(),
-                Tables\Columns\TextColumn::make(name: 'issue_source.name')->searchable(),
-                Tables\Columns\TextColumn::make(name: 'issue_category.name')->searchable(),
-                Tables\Columns\TextColumn::make(name: 'ticket_statuses.name')->searchable(),
+                Tables\Columns\TextColumn::make(name: 'customer.name')->label('Name')->searchable(),
+                Tables\Columns\TextColumn::make(name: 'issueSource.name')->searchable(),
+                Tables\Columns\TextColumn::make(name: 'issueCategory.name')->searchable(),
+                Tables\Columns\TextColumn::make(name: 'ticketStatus.name')->searchable(),
                 Tables\Columns\TextColumn::make(name: 'department')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->sortable(),
+
+                
             ])->defaultSort(column: 'id', direction: 'asc')
             ->filters([
                 Filter::make('created_at')
