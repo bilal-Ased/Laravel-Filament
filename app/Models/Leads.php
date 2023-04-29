@@ -18,12 +18,12 @@ class leads extends Model
 
     public function leadSource()
     {
-        return $this->belongsTo(related:leadSource::class);
+        return $this->belongsTo(related:LeadSource::class);
     }
 
     public function leadStage()
     {
-        return $this->belongsTo(related:leadStage::class);
+        return $this->belongsTo(related:LeadStage::class);
     }
 
     public function product()

@@ -4,8 +4,8 @@ use App\Filament\Resources\LeadsResource\Pages;
 use App\Filament\Resources\LeadsResource\RelationManagers;
 use App\Models\Customer;
 use App\Models\Leads;
-use App\Models\leadSource;
-use App\Models\leadStage;
+use App\Models\LeadSource;
+use App\Models\LeadStage;
 use App\Models\Products;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -41,11 +41,11 @@ class LeadsResource extends Resource
                     ->searchable(),
                     Select::make('lead_source_id')
                     ->label('select Lead Source')
-                    ->options(leadSource::all()->pluck('name', 'id'))
+                    ->options(LeadSource::all()->pluck('name', 'id'))
                     ->searchable(),
                     Select::make('lead_stage_id')
                     ->label('select Lead Stage')
-                    ->options(leadStage::all()->pluck('name', 'id'))
+                    ->options(LeadStage::all()->pluck('name', 'id'))
                     ->searchable(),
                     Select::make('product_id')
                     ->label('select Product')
