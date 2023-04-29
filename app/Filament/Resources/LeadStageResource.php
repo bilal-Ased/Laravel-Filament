@@ -32,6 +32,7 @@ class LeadStageResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')->unique(),
+                
             ]);
     }
 

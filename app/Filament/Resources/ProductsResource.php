@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CustomerResource\Pages;
-use App\Filament\Resources\CustomerResource\RelationManagers;
-use App\Models\Customer;
+use App\Filament\Resources\ProductsResource\Pages;
+use App\Filament\Resources\ProductsResource\RelationManagers;
+use App\Models\Products;
 use Faker\Core\Number;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -14,21 +14,16 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CustomerResource extends Resource
+class ProductsResource extends Resource
 {
-    protected static ?string $model = Customer::class;
+    protected static ?string $model = Products::class;
 
-
-
-    protected static ?string $navigationIcon = 'heroicon-o-user';
-    protected static ?string $navigationGroup = 'Customers';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Products';
     protected static ?string $recordTitleAttribute = 'name';
-
 
 
     protected static function getNavigationBadge(): ?string
@@ -36,54 +31,40 @@ class CustomerResource extends Resource
         return static::getModel()::count();
     }
 
-
-
-
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            TextInput::make('name'),
-            TextInput::make('email'),
-            TextInput::make('phone_number'),
-            TextInput::make('location'),
-            FileUpload::make('path'),
-
-            
-        ]);
+            ->schema([
+                TextInput::make('name')->unique(),
+                TextInput::make('price')->numeric(),
+                TextInput::make('quantity')->numeric(),
+                FileUpload::make('image'),
+    
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
         ->columns([
-
-            Tables\Columns\TextColumn::make(name: 'id')->sortable(),
             Tables\Columns\TextColumn::make(name: 'name')->searchable(),
-            Tables\Columns\TextColumn::make(name: 'email')->searchable(),
-            Tables\Columns\TextColumn::make(name: 'phone_number')->searchable(),
+            Tables\Columns\TextColumn::make(name: 'price')->searchable(),
+            Tables\Columns\TextColumn::make(name: 'quantity')->searchable(),
             Tables\Columns\TextColumn::make('created_at')->sortable(),
-            ImageColumn::make('path')
+            ImageColumn::make('image')->circular(),
         ])->defaultSort(column: 'id', direction: 'asc')
 
-
-
             ->filters([
-                Filter::make('is_featured')->toggle(),
-
-                Tables\Filters\Filter::make(name:'start')->query(fn (Builder $query): Builder => $query->where(column:'id',operator:1))
                 
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
-            
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-
             ]);
-
-            
     }
     
     public static function getRelations(): array
@@ -96,9 +77,9 @@ class CustomerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomers::route('/'),
-            // 'create' => Pages\CreateCustomer::route('/create'),
-            // 'edit' => Pages\EditCustomer::route('/{record}/edit'),
+            'index' => Pages\ListProducts::route('/'),
+            'create' => Pages\CreateProducts::route('/create'),
+            'edit' => Pages\EditProducts::route('/{record}/edit'),
         ];
     }    
 }
