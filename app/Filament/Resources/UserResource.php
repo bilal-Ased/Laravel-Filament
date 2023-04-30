@@ -16,6 +16,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
 {
@@ -79,6 +80,8 @@ class UserResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make()
                     ->requiresConfirmation(),
+                    ExportBulkAction::make() 
+                    ->deselectRecordsAfterCompletion(),   
 
             ]);
     }

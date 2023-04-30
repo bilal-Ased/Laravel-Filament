@@ -18,5 +18,5 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $miscPermission = Permission::create(['name' => 'N/A']);
 
-    }
+    
 }

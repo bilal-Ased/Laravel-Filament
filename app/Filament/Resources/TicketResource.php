@@ -19,6 +19,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class TicketResource extends Resource
 {
@@ -104,6 +105,8 @@ class TicketResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make() 
+                ->deselectRecordsAfterCompletion(),                
             ]);
     }
 

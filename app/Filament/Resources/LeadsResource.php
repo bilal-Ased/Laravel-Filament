@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class LeadsResource extends Resource
 {
@@ -98,6 +99,8 @@ class LeadsResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make() 
+                ->deselectRecordsAfterCompletion(),   
             ]);
     }
     
