@@ -2,24 +2,25 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TicketResource\Pages;
-use App\Filament\Resources\TicketResource\RelationManagers;
-use App\Models\Customer;
-use App\Models\IssueCategory;
-use App\Models\IssueSources;
-use App\Models\Ticket;
-use App\Models\TicketStatuses;
 use Filament\Forms;
+use Filament\Tables;
+use App\Models\Ticket;
+use App\Models\Customer;
+use App\Models\IssueSources;
+use Filament\Resources\Form;
+use App\Models\IssueCategory;
+use Filament\Resources\Table;
+use App\Models\TicketStatuses;
+use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables;
-use Filament\Tables\Filters\Filter;
+use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\TicketResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use App\Filament\Resources\TicketResource\RelationManagers;
 
 class TicketResource extends Resource
 {
@@ -73,6 +74,16 @@ class TicketResource extends Resource
                 Tables\Columns\TextColumn::make(name: 'ticketStatus.name')->searchable(),
                 Tables\Columns\TextColumn::make(name: 'department')->searchable(),
                 Tables\Columns\TextColumn::make('created_at')->sortable(),
+                
+                BadgeColumn::make('ticketStatus.name')
+                ->colors([
+                    'primary',
+                    'secondary' => 'open',
+                    'warning' => 'closed',
+                    'success' => 'resolved',
+                    'danger' => 'created',
+                ])
+            
 
 
             ])->defaultSort(column: 'id', direction: 'asc')
@@ -99,6 +110,8 @@ class TicketResource extends Resource
 
                     Filter::make('Closed Tickets')
                     ->query(fn (Builder $query): Builder => $query->where('ticket_status_id', 2)),
+
+                    
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

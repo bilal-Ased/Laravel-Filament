@@ -1,21 +1,19 @@
 <?php
 
 namespace App\Filament\Widgets;
-use App\Models\Task;
-use App\Models\Ticket;
-use Filament\Widgets\LineChartWidget;
+use App\Models\leads;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
- 
-class TaskChart extends LineChartWidget
+use Filament\Widgets\BarChartWidget;
+
+class TasksLeadsChart extends BarChartWidget
 {
-    protected static ?string $heading = 'All Tickets';
+    protected static ?string $heading = 'All Leads Chart';
 
     protected function getData(): array
     {
-
-       
-        $data = Trend::model(Ticket::class)
+          
+        $data = Trend::model(leads::class)
         ->between(
             start: now()->startOfYear(),
             end: now()->endOfYear(),
@@ -26,11 +24,12 @@ class TaskChart extends LineChartWidget
     return [
         'datasets' => [
             [
-                'label' => 'Tickets',
+                'label' => 'Leads',
                 'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
             ],
         ],
         'labels' => $data->map(fn (TrendValue $value) => $value->date),
     ];
     }
+    
 }

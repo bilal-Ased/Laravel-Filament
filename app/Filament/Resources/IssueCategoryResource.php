@@ -18,8 +18,10 @@ class IssueCategoryResource extends Resource
 {
     protected static ?string $model = IssueCategory::class;
 
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'System Settings';
+
 
     protected static function getNavigationBadge(): ?string
     {
