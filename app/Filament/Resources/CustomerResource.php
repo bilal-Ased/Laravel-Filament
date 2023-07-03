@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Filament\Resources\CustomerResource\RelationManagers;
 use App\Models\Customer;
-use Faker\Core\Number;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -32,8 +31,10 @@ class CustomerResource extends Resource
     protected static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+
     }
 
+    
 
 
 
@@ -47,7 +48,7 @@ class CustomerResource extends Resource
             TextInput::make('location'),
             FileUpload::make('path'),
 
-            
+
         ]);
     }
 
@@ -70,27 +71,27 @@ class CustomerResource extends Resource
                 Filter::make('is_featured')->toggle(),
 
                 Tables\Filters\Filter::make(name:'start')->query(fn (Builder $query): Builder => $query->where(column:'id',operator:1))
-                
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
-            
+
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
 
             ]);
 
-            
+
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -98,5 +99,5 @@ class CustomerResource extends Resource
             // 'create' => Pages\CreateCustomer::route('/create'),
             // 'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
-    }    
+    }
 }
